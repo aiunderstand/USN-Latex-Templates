@@ -1,0 +1,87 @@
+\begin{savequote}
+---"Famous Quote"
+\qauthor{\textbf{Prof. Y}, in: \cite{RineMVLbook}}
+\end{savequote}
+
+\chapter{Introduction}
+\label{ch:intro}
+\pagenumbering{arabic}
+
+\section{Various Overleaf examples}
+
+\textbf{Example of a quote}
+\begin{displayquote}
+"This is a quote."
+\end{displayquote}
+
+\textbf{Example of an equation}
+\begin{equation} \label{eq:1}
+n = x_{p} * r^{p} + x_{p-1} * r^{p-1} + \dots + x_{0} * r^{0}
+\end{equation}
+
+\textbf{Example of a citation}
+This topic is discussed in more detail with page number in \cite[p.~3]{BosBeyondCMOS}. The source code and results are made open source \cite{bos-mrcsGithub}. Example of a multi source: \cite{RineMVLbook,BosBeyondCMOS,bos-mrcsGithub}.
+
+\textbf{Example of a footnote}
+Note that this true in some cases\footnote{This is a footnote}. 
+
+\textbf{Example of a bullet point list}
+\begin{itemize}
+    \item \textbf{Item 1.} Something
+    \item \textbf{Item 2.} Another thing
+    \item \textbf{Item 3.} More things?
+\end{itemize}
+
+\textbf{Example of a table}
+\begin{table}[H]
+\centering
+\caption{Relation between discrete radixes, compactness and ambiguity}
+\label{tab: radix-compactness}
+
+\begin{tabular}{|c|cccc|}
+ \hline
+ \multicolumn{1}{|c|}{\textbf{Decimal Number}} &
+ \multicolumn{4}{c|}{\textbf{Radix}} \cr \cline{2-5} 
+  
+ \multicolumn{1}{|c|}{\textbf{(Radix-10)}} &
+ \multicolumn{1}{c}{\textbf{Radix-1}} & \textbf{Radix-2} & \cellcolor{USN-green!50}\textbf{Radix-3} & \textbf{Radix-8} \\ \hline
+
+  0 & \varnothing$_{1}$ & $0_{2}$    & \cellcolor{USN-green!50}$0_{3}$   & $0_{8}$ \\
+  1 & $0_{1}$           & $1_{2}$    & \cellcolor{USN-green!50}$1_{3}$   & $1_{8}$ \\
+  2 & $00_{1}$          & $10_{2}$   & \cellcolor{USN-green!50}$2_{3}$   & $2_{8}$ \\
+  3 & $000_{1}$         & $11_{2}$   & \cellcolor{USN-green!50}$10_{3}$  & $3_{8}$ \\  \hline  
+\end{tabular}%
+
+\end{table}
+
+
+\textbf{Example of a figure with a scale factor}
+A reference to Fig. \ref{fig:test-1}.
+\begin{figure}[H]
+    \centering    
+    \includegraphics[scale=0.95]{images/small.png}
+    \caption[Figure caption short]{Figure caption long}
+    \label{fig:test-1}    
+\end{figure}
+
+\textbf{Example of a figure side by side}
+A reference to Fig. \ref{fig:test-2} and Fig. \ref{fig:test-3}. Note the usage of [H] after figure or table to place the figure after the text (see Overleaf documentatation URL: \url{https://www.overleaf.com/learn/latex/Positioning_images_and_tables})
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/small.png}
+    \caption[Figure caption short]{Figure caption long}
+        \label{fig:test-2}    
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/small.png}
+    \caption[Figure caption short]{Figure caption long}
+      \label{fig:test-3}    
+  \end{minipage}
+\end{figure}
+
+\textbf{Example of a code listing imported from a file}
+\lstinputlisting[language=C]{code/ClockBehaviour.cs}
+

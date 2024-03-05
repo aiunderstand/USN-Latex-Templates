@@ -1,0 +1,306 @@
+% Author: David Kristiansen <davidandree at gmail dot com>
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style/USN-frontpage}[2024/01/01 Frontpage style]
+
+% This package accepts the following options: (all of them are non-mandatory)
+% author
+% title
+% school
+% faculty
+% thesis
+% department
+% time
+% description
+% logo
+% photo
+% top
+% bottom
+% left
+% right
+%
+% These options are loaded through package options. 
+% alternatively using the \FrontPage macro
+%
+% Example usage:
+% \usepackage[photo=frontpage.jpg]{usnfront}
+%
+% Alternative:
+% \usepackage{usnfront}
+% \FrontPage{photo=frontpage.jpg}
+%
+%
+% Description of options
+%
+% author 
+% is sourced from \@author, and can be set with LaTeX command \author{}, optionally it can be set with this command.
+%
+% title 
+% is sourced from \@title, and can be set with LaTeX command \title{}, optionally it can be set with this command.
+%
+% school
+% defaults to University of South-Eastern Norway
+%
+% faculty
+% defaults to Faculty of Technology and Maritime Sciences
+%
+% thesis
+% defaults to Master thesis in Computer Science
+%
+% department
+% defaults to Department of Science and Industry Systems
+%
+% time
+% is sourced from \@date, and can be set with LaTeX command \date{}, optionally it can be set with this command.
+%
+% description
+% defaults to en empty string
+%
+% photo
+% defaults to empty space
+%
+% logo
+% default to the USN logo
+%
+% top, bottom, left, right
+% defaults to 25mm
+
+
+\RequirePackage{pgfkeys}          % For key value interface
+\RequirePackage{pgfopts}          % For package options, using pgfkeys interface
+\RequirePackage{tikz}             % Tikzgraphics
+\RequirePackage{tikzpagenodes}    % Page nodes. IE. current page text area
+\RequirePackage{geometry}         % To set the margin width
+\RequirePackage{array}
+\usetikzlibrary{calc,positioning} % TikZ libraries
+
+\makeatletter
+\pgfkeys{/.cd,	
+	author/.initial=Author not set,
+	author/.get=\@author,
+	author/.store in=\@author,
+	title/.initial=Title not set,
+	title/.get=\@title,
+	title/.store in=\@title,
+	school/.initial=University of South-Eastern Norway,
+	school/.get=\t@school,
+	school/.store in=\t@school,
+	faculty/.initial={Faculty of Technology, Natural Sciences, and Maritime Sciences},
+	faculty/.get=\t@faculty,
+	faculty/.store in=\t@faculty,
+	thesis/.initial=Master of Science in Computer Science,
+	thesis/.get=\t@thesis,
+	thesis/.store in=\t@thesis,
+	department/.initial=Department of Science and Industry Systems,
+	department/.get=\t@department,
+	department/.store in=\t@department,
+	time/.initial=\@date,
+	time/.get=\t@time,
+	time/.store in=\t@time,
+	description/.initial=,
+	description/.get=\t@description,
+	description/.store in=\t@description,
+	top/.initial=25mm,
+	top/.get=\t@top,
+	top/.store in=\t@top,
+	bottom/.initial=25mm,
+	bottom/.get=\t@bottom,
+	bottom/.store in=\t@bottom,
+	left/.initial=25mm,
+	left/.get=\t@left,
+	left/.store in=\t@left,
+	right/.initial=25mm,
+	right/.get=\t@right,
+	right/.store in=\t@right,
+	photo/.initial=,
+	photo/.get=\t@photo,
+	photo/.store in=\t@photo,
+	logo/.initial=,
+	logo/.get=\t@logo,
+	logo/.store in=\t@logo,
+    logo_width/.initial=3cm,
+    logo_width/.get=\t@logowidth,
+    logo_width/.store in=\t@logowidth
+}
+
+\ProcessPgfOptions{}
+
+\newcommand{\FrontPage}[1]{
+	\pgfkeys{#1}
+}
+
+\newcommand{\USNfrontpage}{%
+
+	\begin{titlepage}\thispagestyle{empty}
+	\newgeometry{left=\t@left,right=\t@right,top=\t@top,bottom=\t@bottom}
+%	\NoBgThispage
+	\hbadness=10000 % Avoid stupid bad box warnings
+	\begin{tikzpicture}[remember picture, overlay]
+	\tikzstyle{every node}=[font=\sffamily\large]
+
+		% === Top right textbox
+		\node (tr_textbox) [
+			anchor=north east,
+			text width={\dimexpr\textwidth-2\fboxrule-(\t@logowidth - 0.5cm)\relax},
+			align=right,
+			font=\sffamily\raggedleft,
+		] at (current page text area.north east) 
+{\renewcommand{\baselinestretch}{.3}%
+					{\bfseries\t@school}\\%[-.25em]
+					\t@faculty\\%[-.25em]
+					---\\%[-.25em]
+					{\t@thesis}\\%[-.25em]
+					\t@department\\%[-.25em]
+					{\monthyeardate\today}
+};
+
+			% === Logo
+			\ifx\t@logo\empty
+				\begin{scope}[
+					,y=0.20pt
+    				,x=0.20pt
+    				,yscale=-0.550000
+    				,xscale=0.550000
+    				,inner sep=0pt
+    				,outer sep=0pt
+    				,cm={{0.80,0.0,0.0,0.80,(0.0,194.88125)}}
+%    				,shift={($(current page text area.north west) + (154.6255,0)$)}
+%					,shift={($(current page text area.north west) + (149.5,-8)$)}
+					,shift={($(current page text area.north west) - (0.0,-8)$)}
+				]
+				\path[fill=black] (110.5000,294.4558) .. controls (77.5973,291.3828) and
+  (51.0091,279.7490) .. (30.8233,259.5928) .. controls (12.2590,241.0557) and
+  (4.1698,224.6768) .. (1.4222,200.0622) .. controls (0.3222,190.2075) and
+  (0.0178,167.8560) .. (0.0100,96.3570) .. controls (0.0010,14.1631) and
+  (0.1553,5.1544) .. (1.5818,4.6070) .. controls (4.1729,3.6127) and
+  (45.3719,3.9497) .. (47.0000,4.9785) .. controls (48.3119,5.8074) and
+  (48.5656,18.8193) .. (49.0232,108.7132) .. controls (49.5385,209.9400) and
+  (49.5790,211.6150) .. (51.6886,219.0791) .. controls (60.4887,250.2147) and
+  (77.9079,268.4880) .. (106.1136,276.1727) .. controls (113.5388,278.1957) and
+  (116.7923,278.4581) .. (134.5000,278.4627) .. controls (152.0018,278.4667) and
+  (155.6242,278.1840) .. (163.5000,276.1957) .. controls (180.7656,271.8369) and
+  (195.2653,262.7421) .. (203.0975,251.3583) .. controls (208.7976,243.0735) and
+  (211.3091,234.6427) .. (211.4097,223.4554) .. controls (211.4967,213.7833) and
+  (211.3611,213.1296) .. (207.7538,205.8237) .. controls (204.9787,200.2032) and
+  (202.2728,196.6136) .. (197.3153,191.9761) .. controls (185.5564,180.9762) and
+  (173.3040,174.0485) .. (134.7598,156.6062) .. controls (105.9922,143.5881) and
+  (96.6042,137.1797) .. (87.2728,124.1910) .. controls (69.9239,100.0425) and
+  (71.7633,60.2571) .. (91.4304,34.2637) .. controls (104.5802,16.8841) and
+  (127.1304,4.9120) .. (153.1901,1.4749) .. controls (159.3406,0.6637) and
+  (171.3765,0.0065) .. (179.9364,0.0145) .. controls (205.6964,0.0386) and
+  (251.5172,3.9506) .. (262.0000,7.0208) .. controls (265.1214,7.9350) and
+  (273.6139,18.7532) .. (340.5000,107.0172) .. controls (381.7500,161.4515) and
+  (415.8375,205.9912) .. (416.2500,205.9943) .. controls (416.6625,205.9973) and
+  (417.0000,160.8231) .. (417.0000,105.6070) .. controls (417.0000,14.9842) and
+  (417.1539,5.1549) .. (418.5818,4.6070) .. controls (420.6457,3.8150) and
+  (469.3543,3.8150) .. (471.4182,4.6070) .. controls (472.6632,5.0847) and
+  (473.0000,6.7880) .. (473.0000,12.6070) -- (473.0000,20.0000) --
+  (455.1224,20.0000) .. controls (441.3465,20.0000) and (436.9882,20.3093) ..
+  (436.1261,21.3481) .. controls (435.3160,22.3242) and (434.9373,59.9194) ..
+  (434.7536,157.5981) -- (434.5000,292.5000) -- (427.5213,292.5000) --
+  (420.5425,292.5000) -- (338.1831,184.5000) .. controls (292.8855,125.1000) and
+  (255.4134,76.3500) .. (254.9119,76.1667) .. controls (254.3727,75.9696) and
+  (254.0000,91.5799) .. (254.0000,114.3577) .. controls (254.0000,137.0125) and
+  (253.6171,153.1186) .. (253.0706,153.4564) .. controls (252.5593,153.7723) and
+  (249.9705,151.8864) .. (247.3175,149.2654) .. controls (244.6646,146.6444) and
+  (240.8078,143.0266) .. (238.7470,141.2258) -- (235.0000,137.9515) --
+  (235.0000,92.3657) -- (235.0000,46.7800) -- (231.8273,40.8274) .. controls
+  (226.1690,30.2113) and (215.2694,22.4085) .. (199.8286,17.9204) .. controls
+  (189.3419,14.8722) and (167.0837,14.1132) .. (156.5977,16.4461) .. controls
+  (134.8805,21.2777) and (120.6506,35.0210) .. (116.3353,55.3317) .. controls
+  (113.6624,67.9123) and (115.8862,79.3405) .. (122.7894,88.5000) .. controls
+  (130.4771,98.7003) and (137.5078,102.8922) .. (186.4539,126.4581) .. controls
+  (210.8541,138.2059) and (223.7485,146.5582) .. (235.0185,157.9155) .. controls
+  (247.6820,170.6771) and (253.3497,182.6914) .. (254.6428,199.5146) .. controls
+  (257.0193,230.4323) and (234.5024,263.5945) .. (199.0000,281.4636) .. controls
+  (183.5529,289.2384) and (168.7847,293.2299) .. (149.0000,294.9774) .. controls
+  (134.9113,296.2218) and (128.4759,296.1346) .. (110.5000,294.4558) -- cycle;
+				\end{scope}
+			\else
+				\node (logo) [anchor=north west,xshift=-2.5mm] at (current page text area.north west) {%|-tr_textbox.center) {%
+					\includegraphics[width=\t@logowidth]{\t@logo}%
+				};
+			\fi
+
+		% === Left text box
+		\node (l_textbox) [text width=\dimexpr\textwidth-2\fboxrule\relax,anchor=north east, align=justify,yshift=-3\baselineskip,xshift=0pt] at (current page text area.east |-tr_textbox.south) {\renewcommand{\baselinestretch}{.6}%
+					\Large\myauthor\\[.5em]
+					\textbf{\normalfont\huge\mytitle}
+					\ifx\t@description\empty\relax\else\\[.5em]
+						\small\t@description
+					\fi
+		};
+
+		% === Photo
+		\node (photo) [anchor=north east,yshift=-1.5em] at (current page text area.east|-l_textbox.south) {%
+			\setlength{\fboxsep}{0pt}%
+			\setlength{\fboxrule}{1pt}%
+			\ifx\t@photo\empty\relax\else
+%		 		\fbox{\includegraphics[width={\dimexpr\textwidth-2\fboxrule\relax}]{\t@photo}}%
+				\includegraphics[width={\dimexpr\textwidth-2\fboxrule\relax}]{\t@photo}
+		 	\fi
+		 };
+
+	\end{tikzpicture}
+
+	\end{titlepage}
+
+	\restoregeometry
+	\clearpage
+%	\addtocounter{page}{1}
+}
+
+\newcommand{\CopyRightPage}{%
+	\thispagestyle{empty}
+	\vspace*{\fill}
+	{	\renewcommand{\arraystretch}{.5}
+		\begin{tabular}{>{\scriptsize}l}
+			\renewcommand{\arraystretch}{.1}%
+			\textbf{\raisebox{-.3ex}{\hspace{-.1ex}\small\textcopyright}~\ \textsf{\myauthor, \monthyeardate\today}}\\[1em]
+			%\textbf{\small\textcopyright}~\ \textsf{\@author, 2017}\\[1em]
+			\textsf{\t@school}\\
+			\textsf{\t@faculty}\\
+			\textsf{\t@department}\\
+			\textsf{PO Box 235}\\
+			\textsf{NO-3603 Kongsberg, Norway}\\[.4em]
+			\texttt{http://www.usn.no}\\[.4em]
+			This thesis is worth 60 study points
+		\end{tabular}
+	}
+}
+
+
+
+
+	% Create a blank page if twoside option is on
+%	\if@twoside
+%		\leavevmode\thispagestyle{empty}\newpage
+%	\fi
+
+
+
+
+
+% http://tex.stackexchange.com/questions/48152/dynamic-signature-date-line
+\newcommand*{\SignatureAndDate}[1]{%
+    \par\noindent\makebox[.35\linewidth]{\hrulefill} \hfill\makebox[.5\linewidth]{\hrulefill}%
+    \par\noindent\makebox[.35\linewidth][l]{Date}      \hfill\makebox[.5\linewidth][l]{#1}%
+}%
+
+\newcommand{\CertificationPage}{%
+	\thispagestyle{plain}
+	\begin{center}\sloppy
+		The undersigned have examined the thesis entitled \textit{\@title} presented by \textit{\@author}, a candidate for the degree of \textit{Master of Science in Computer Science} and hereby certify that it is worthy of acceptance.
+	\end{center}
+
+	\vspace{3cm}
+
+	\SignatureAndDate{Dean of the Department}\vspace{2.5cm}
+	
+	\SignatureAndDate{Supervisor's  name}\vspace{2.5cm}
+
+	\SignatureAndDate{Committee member name}\vspace{2.5cm}
+
+	\SignatureAndDate{Committee member name} 
+
+}
+\makeatother
